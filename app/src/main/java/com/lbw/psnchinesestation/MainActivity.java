@@ -1,14 +1,11 @@
 package com.lbw.psnchinesestation;
 
-import android.media.PlaybackParams;
-import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -17,7 +14,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
-import java.lang.reflect.Field;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private WebView web;//网页控件
@@ -27,7 +23,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button btn_bai_du;
     private DrawerLayout dl;
     private boolean flag=false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
