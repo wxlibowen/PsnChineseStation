@@ -17,7 +17,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private WebView web;//网页控件
-    private String URL = "http://psnine.com/";//网址
+    private String URL = "https://www.psnine.com/";//网址
     private long exitTime = 0;//退出计时器
     private SwipeRefreshLayout swipe_refresh;//下拉刷新
     private Button btn_bai_du;
