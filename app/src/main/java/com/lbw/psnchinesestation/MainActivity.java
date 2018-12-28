@@ -14,15 +14,19 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 
+import java.util.Objects;
 
+
+/**
+ * @author WXlib
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private WebView web;//网页控件
-    private String URL = "https://www.psnine.com/";//网址
-    private long exitTime = 0;//退出计时器
-    private SwipeRefreshLayout swipe_refresh;//下拉刷新
-    private Button btn_bai_du;
+    private WebView web;
+    private String url = "http://www.d7vg.com/";
+    private long exitTime = 0;
+    private SwipeRefreshLayout swipeRefresh;
     private DrawerLayout dl;
-    private boolean flag=false;
+    private boolean flag = false;
 
 
     @Override
@@ -35,53 +39,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
     private void initView() {
         String brand = android.os.Build.BRAND;
-       if (brand.equals("Xiaomi")){
-           flag=true;
-       }else {
-           flag=false;
-       }
+        flag = "Xiaomi".equals(brand);
 
-        getSupportActionBar().hide();//去掉ActionBar
+        Objects.requireNonNull(getSupportActionBar()).hide();
         web = findViewById(R.id.web_view);
-        dl=findViewById(R.id.drawer_layout);
-        btn_bai_du =findViewById(R.id.btn_baidu);
-        btn_bai_du.setOnClickListener(this);
+        dl = findViewById(R.id.drawer_layout);
+        Button btnBaiDu = findViewById(R.id.btn_baidu);
+        btnBaiDu.setOnClickListener(this);
 
         WebSettings webSettings = web.getSettings();
-        webSettings.setJavaScriptEnabled(true);//支持JavaScript用于登录
-        webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);//用于播放视频
-        webSettings.setAppCacheEnabled(true);//开启缓存
-        web.requestFocus();//使页面获得焦点
-        web.setWebChromeClient(new WebChromeClient());//使用webView打开网页
-        web.setWebViewClient(new WebViewClient());    //使用webView打开网页
+        //webSettings.setJavaScriptEnabled(true);
+        webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        webSettings.setAppCacheEnabled(true);
+        web.requestFocus();
+        web.setWebChromeClient(new WebChromeClient());
+        web.setWebViewClient(new WebViewClient());
 
-        swipe_refresh = findViewById(R.id.swipe_refresh);
-        swipe_refresh.setColorSchemeColors(getColor(R.color.statue_bar));
+        swipeRefresh = findViewById(R.id.swipe_refresh);
+        swipeRefresh.setColorSchemeColors(getColor(R.color.statue_bar));
         //下拉刷新监听
-        swipe_refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 web.reload();
-                swipe_refresh.setRefreshing(false);//加载完毕去掉ProgressBar
+                swipeRefresh.setRefreshing(false);
             }
         });
     }
-    private void webSetting() {
-        web.loadUrl(URL);//加载网页
-    }
-    
 
+    private void webSetting() {
+        web.loadUrl(url);
+    }
+
+
+    @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (web.canGoBack()) {
                 web.goBack();
             } else {
-                if ((System.currentTimeMillis() - exitTime) > 2000) {
-                    Snackbar.make(web,"再次点击退出!",Snackbar.LENGTH_SHORT).show();
-                    exitTime = System.currentTimeMillis();
+                int exitTime = 2000;
+                if ((System.currentTimeMillis() - this.exitTime) > exitTime) {
+                    Snackbar.make(web, "再次点击退出!", Snackbar.LENGTH_SHORT).show();
+                    this.exitTime = System.currentTimeMillis();
                 } else {
                     finish();
                 }
@@ -93,17 +95,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btn_baidu:
-               if (flag){
-                   URL="http://wap.luohua99.net/view/26218.html";
-               }else {
-                   URL="https://www.baidu.com";
-               }
+                if (flag) {
+//                   url ="http://wap.luohua99.net/view/26218.html";
+                    url = "https://www.baidu.com";
+                } else {
+                    url = "https://www.baidu.com";
+                }
                 webSetting();
                 dl.closeDrawer(GravityCompat.START);
                 break;
-
+            default:
+                break;
 
         }
     }
